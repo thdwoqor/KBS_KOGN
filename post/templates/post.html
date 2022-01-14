@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<article id="contents">
+
+</article>
+<hr class="mt-4 mb-4">
+
+<form method="post" novalidate>
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-6">
+            {{ form.title|as_crispy_field }}
+        </div>
+        <div class="col-6">
+            {{ form.radio|as_crispy_field }}
+        </div>
+    </div>
+    {{ form.address|as_crispy_field }}
+    {{ form.contents|as_crispy_field }}
+    <button type="submit" class="btn btn-success mb-4">Save</button>
+
+
+    <script>
+        const radio = document.getElementsByName('radio')[0];
+
+        radio.addEventListener('change', async event => {
+            const response = await (await fetch(`/radio/${event.target.value}`)).json();
+            contents = response.fields.contents;
+
+            document.getElementById('contents').innerText = contents;
+        });
+    </script>
+</form>
+
+
+
+{% endblock %}
