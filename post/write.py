@@ -17,7 +17,7 @@ load_dotenv()
 class Write:
     def __init__(self):
         chrome_options = Options()
-        # chrome_options.add_argument('headless') 
+        chrome_options.add_argument('headless')
         self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
     
     def displayed(self, by, value):
@@ -78,4 +78,6 @@ class Write:
 
         self.Write_Text(By.XPATH,'//*[@id="post_contents"]',contents)
 
-        input()
+        self.driver.find_element(By.XPATH,'//*[@id="save_btn"]').click()
+
+        self.driver.quit()
