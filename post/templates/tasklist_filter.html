@@ -1,0 +1,22 @@
+<div class="card">
+    <table class="table table-striped m-0">
+        <thead>
+            <tr>
+                <th class="border-0" scope="col">Title</th>
+                <th class="border-0" scope="col">Radio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for postlist in object_list %}
+            <tr hx-target="this" hx-swap="outerHTML">
+                <th class="border-0" scope="row">
+                    <a href="{{ postlist.get_absolute_url }}">
+                        {{ postlist.title }}
+                    </a>
+                </th>
+                <td class="border-0">{{ postlist.radio }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

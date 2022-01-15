@@ -1,8 +1,9 @@
 from django.db import models
-
 from radio.models import Radio
-
 from .write import Write
+
+from django.db.models.query import QuerySet
+from django.urls import reverse
 
 # https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html
 class Post(models.Model):
@@ -13,12 +14,19 @@ class Post(models.Model):
     address = models.CharField(max_length=200)  
     contents = models.TextField(max_length=200)  
 
-    def __str__(self):
-        return self.title
+    class Meta:
+        verbose_name = "Post"
+        verbose_name_plural = "Posts"
 
-    def get_absolute_url(self):
+    def __str__(self) -> str:
+        return self.title
+    
+    def save(self):
+        super().save()
         print(self.id, self.title, self.radio.id, self.address, self.contents)
         write = Write()
         write.Login()
         write.Write_Post(self.radio.id, self.title, self.address, self.contents)
-        return '/'
+
+    def get_absolute_url(self)-> int:
+        return reverse("post-detail", kwargs={"id": self.id})
